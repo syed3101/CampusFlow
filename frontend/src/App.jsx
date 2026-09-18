@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { api } from "./api.js";
+import { Eye, EyeOff } from "lucide-react";
 
 const STATUS_LABELS = {
   available: "Available",
@@ -15,6 +16,9 @@ const BOOKING_LABELS = {
   cancelled: "Cancelled",
   no_show: "No-show released",
 };
+
+
+
 
 function StatusPill({ status }) {
   return (
@@ -89,6 +93,8 @@ function AuthScreen({ onAuthed, notify }) {
   });
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
 
   const update = (key) => (event) => {
     const value =
@@ -106,6 +112,8 @@ function AuthScreen({ onAuthed, notify }) {
     event.preventDefault();
     setBusy(true);
     setError("");
+
+
 
     try {
       if (mode === "login") {
@@ -231,14 +239,24 @@ function AuthScreen({ onAuthed, notify }) {
 
           <label className="field">
             <span>Password</span>
-            <input
-              type="password"
-              value={form.password}
-              onChange={update("password")}
-              minLength={6}
-              placeholder="At least 6 characters"
-              required
-            />
+            <div className="password-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                value={form.password}
+                onChange={update("password")}
+                minLength={6}
+                placeholder="At least 6 characters"
+                required
+                />
+              <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  >
+                {showPassword ? <EyeOff size={20} color="black" /> : <Eye size={20} />}
+              </button>
+            </div>
           </label>
 
           {mode === "register" && (
@@ -287,12 +305,6 @@ function AuthScreen({ onAuthed, notify }) {
               ? "New to CampusFlow? Create an account"
               : "Already registered? Sign in"}
           </button>
-
-          {/* <div className="demo-box">
-            <strong>Demo accounts after seed.py</strong>
-            <span>Admin: admin@campusflow.edu / admin123</span>
-            <span>Student: student@campusflow.edu / student123</span>
-          </div> */}
         </form>
       </section>
     </main>
@@ -350,13 +362,24 @@ function AppShell({
         </div>
         <select
           value={activeTab}
-          onChange={(event) => setActiveTab(event.target.value)}
+          onChange={(event) => {
+            const value = event.target.value;
+
+            if (value === "logout") {
+              onLogout();
+            } else {
+              setActiveTab(value);
+            }
+          }}
         >
           {tabs.map((tab) => (
-            <option key={tab.key} value={tab.key}>
-              {tab.label}
-            </option>
-          ))} 
+          <option key={tab.key} value={tab.key}>
+            {tab.label}
+          </option>
+          ))}
+          <option value="logout">
+            Sign out
+          </option>
         </select>
       </div>
 

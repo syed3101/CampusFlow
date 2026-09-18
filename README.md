@@ -5,7 +5,7 @@ CampusFlow is a full-stack campus resource booking platform built with:
 - **Frontend:** React 18 + JavaScript + HTML5 + CSS3
 - **Frontend tooling:** Vite + ES modules
 - **Backend:** Python + Flask
-- **Database:** SQLite
+- **Database:** Postgres
 - **ORM:** SQLAlchemy
 
 The frontend uses real ES modules:
@@ -70,7 +70,7 @@ request the exact same slot while one request is waiting for approval.
 Confirmed reservations can receive:
 
 - In-app reminder
-- Email reminder through SMTP
+- Email reminder through BREVO
 
 Each user can configure:
 
@@ -235,18 +235,15 @@ CAMPUS2026
 Add these values to `backend/.env`:
 
 ```env
-SMTP_HOST=smtp.example.com
-SMTP_PORT=587
-SMTP_USERNAME=your-account
-SMTP_PASSWORD=your-password-or-app-password
-SMTP_FROM=campusflow@example.com
-SMTP_USE_TLS=true
+BREVO_API_KEY = your Brevo API key
+BREVO_SENDER_EMAIL = the Gmail you verified in Brevo
+BREVO_SENDER_NAME = CampusFlow
 ```
 
-If SMTP is not configured, the worker safely skips real email delivery while
+If Brevo is not configured, the worker safely skips real email delivery while
 in-app reminders still work.
 
-Do not commit real SMTP passwords to GitHub.
+Do not commit real Brevo keys to GitHub.
 
 ---
 
@@ -346,7 +343,7 @@ and the slot becomes reusable.
 
 ## Demo 4 — reminder channels
 
-With SMTP configured, show an upcoming confirmed booking producing:
+With Brevo configured, show an upcoming confirmed booking producing:
 
 - in-app notification
 - email

@@ -1275,9 +1275,6 @@ tbody tr:hover {
   }
 }
 
-
-/* ---------- Advanced hackathon features ---------- */
-
 .card-badge-row {
   min-height: 24px;
   display: flex;
@@ -1451,4 +1448,39 @@ tbody tr:hover {
     display: grid;
     grid-template-columns: 1fr 1fr;
   }
+}
+
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-wrapper input {
+  width: 100%;
+  padding-right: 45px;
+}
+
+.password-toggle {
+  position: absolute;
+
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  border: none;
+  background: transparent;
+
+  padding: 0;
+  margin: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  color: #64748b;
+}
+
+.password-toggle:hover {
+  color: #111827;
 }
